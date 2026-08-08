@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-red: #e50914;
+  --brand-red-dark: #d32f2f;
+  --brand-dark: #1a1a1a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #f4f4f5;
+  font-family: var(--font-vazir), ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.6;
+  background-image:
+    radial-gradient(circle at 10% 10%, rgba(229, 9, 20, 0.07) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(229, 9, 20, 0.05) 0%, transparent 40%);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #e50914;
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-[#e50914] px-5 py-3 text-sm font-bold text-white transition-all duration-300 ease-in-out hover:bg-[#ff1f2c] hover:shadow-[0_0_25px_rgba(229,9,20,0.5)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-700 px-5 py-3 text-sm font-bold text-zinc-300 transition-all duration-300 ease-in-out hover:border-[#e50914] hover:text-[#e50914] active:scale-95;
+  }
+
+  .price-toman {
+    @apply text-sm font-extrabold text-[#e50914];
+  }
+
+  .section-title {
+    @apply mb-6 flex items-center gap-3 text-xl font-extrabold text-white sm:text-2xl;
+  }
+
+  .section-title::before {
+    content: "";
+    @apply h-7 w-1.5 rounded-full bg-[#e50914];
+  }
+}
+
+@layer base {
+  * {
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  body {
+    background-color: #0a0a0a;
+    color: #f4f4f5;
+  }
+  html {
+    font-family: var(--font-vazir), ui-sans-serif, system-ui, sans-serif;
+  }
+}
