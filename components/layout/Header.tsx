@@ -14,6 +14,8 @@ import { useUIStore } from "@/store/ui-store";
 import { useCurrency } from "@/hooks/useCurrency";
 import { formatToman } from "@/lib/currency";
 import MegaMenu from "@/components/layout/MegaMenu";
+import { NAV_CATEGORIES, BRANDS } from "@/lib/data/categories";
+import type { NavCategory, Brand } from "@/lib/types";
 
 function Logo() {
   return (
@@ -33,7 +35,15 @@ function Logo() {
   );
 }
 
-export default function Header() {
+interface HeaderProps {
+  megaMenuCategories?: NavCategory[];
+  megaMenuBrands?: Brand[];
+}
+
+export default function Header({
+  megaMenuCategories = NAV_CATEGORIES,
+  megaMenuBrands = BRANDS,
+}: HeaderProps) {
   const totalItems = useCartStore((s) => s.totalItems());
   const setCartOpen = useCartStore((s) => s.setOpen);
   const { setAuthModalOpen, setSearchOpen, mobileMenuOpen, setMobileMenuOpen } =
@@ -103,7 +113,7 @@ export default function Header() {
       {/* Nav bar */}
       <div className="hidden border-t border-gray-100 lg:block">
         <div className="container-x flex items-center justify-between">
-          <MegaMenu />
+          <MegaMenu categories={megaMenuCategories} brands={megaMenuBrands} />
           <a
             href="tel:02191004500"
             className="flex shrink-0 items-center gap-2 text-sm font-bold text-gray-500 transition-colors hover:text-brand-red"

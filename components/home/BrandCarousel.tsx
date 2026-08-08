@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { BRANDS } from "@/lib/data/categories";
+import { getBrands } from "@/lib/data/db";
 
-export default function BrandCarousel() {
-  const doubled = [...BRANDS, ...BRANDS];
+export default async function BrandCarousel() {
+  const brands = await getBrands();
+  const doubled = [...brands, ...brands];
 
   return (
     <section className="border-y border-gray-200 bg-gray-50 py-8">
@@ -19,7 +20,7 @@ export default function BrandCarousel() {
               <Link
                 key={`${brand.slug}-${i}`}
                 href={`/brands/${brand.slug}`}
-                className="flex h-20 w-40 shrink-0 flex-col items-center justify-center gap-1 rounded-xl border border-gray-200 bg-white px-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-red-600/50 hover:shadow-md"
+                className="flex h-16 w-44 shrink-0 flex-col items-center justify-center gap-1 rounded-full border border-gray-200 bg-white px-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-red-600/50 hover:shadow-md"
               >
                 <span
                   className="text-base font-black tracking-tight text-gray-800"

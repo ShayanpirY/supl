@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import AuthModal from "@/components/auth/AuthModal";
 import SearchOverlay from "@/components/search/SearchOverlay";
+import { getMegaMenuData } from "@/lib/data/db";
 import { Vazirmatn } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -24,16 +25,21 @@ export const metadata: Metadata = {
     "فروشگاه اینترنتی مکمل‌های ورزشی با واردات مستقیم از دبی، ضمانت اصالت کالا و قیمت‌گذاری لحظه‌ای بر اساس نرخ درهم.",
   };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const megaMenuData = await getMegaMenuData();
+
   return (
     <html lang="fa" dir="rtl" className={cn("font-sans", vazir.variable)}>
       <body className="flex min-h-screen flex-col bg-white text-gray-900 font-vazir antialiased">
         <HeaderTop />
-        <Navbar />
+        <Navbar
+          megaMenuCategories={megaMenuData.categories}
+          megaMenuBrands={megaMenuData.brands}
+        />
         <main className="flex-1">{children}</main>
         <Footer />
         <CartDrawer />

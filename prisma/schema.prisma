@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Brand {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  tagline   String?
+  logoColor String?
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Category {
+  id        String     @id @default(cuid())
+  title     String
+  titleEn   String?
+  href      String     @unique
+  icon      String?
+  slug      String?
+  image     String?
+  parentId  String?
+  parent    Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  products  Product[]
+  createdAt DateTime   @default(now())
+}
+
+model Product {
+  id               String    @id @default(cuid())
+  slug             String    @unique
+  name             String
+  brand            String
+  category         String
+  categorySlug     String
+  subcategory      String
+  summary          String?
+  description      String?
+  images           Json
+  tags             Json?
+  variants         Json
+  facts            Json?
+  rating           Float     @default(0)
+  reviewCount      Int       @default(0)
+  featured         Boolean   @default(false)
+  bestSeller       Boolean   @default(false)
+  isNew            Boolean   @default(false)
+  hasUnboxingVideo Boolean   @default(false)
+  unboxingVideoUrl String?
+  batchCode        String?
+  brandId          String?
+  categoryId       String?
+  brandRef         Brand?    @relation(fields: [brandId], references: [id])
+  categoryRef      Category? @relation(fields: [categoryId], references: [id])
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}

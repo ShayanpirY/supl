@@ -5,6 +5,8 @@ import ProductGrid from "@/components/home/ProductGrid";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import { getFeaturedProducts, getBestSellers, getNewArrivals } from "@/lib/data/products";
 
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   const featured = getFeaturedProducts();
   const bestSellers = getBestSellers();
