@@ -55,36 +55,34 @@ export default function SearchOverlay() {
   return (
     <div className="fixed inset-0 z-[65] animate-fade-in">
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-md"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={close}
       />
 
       <div className="mx-auto mt-20 w-full max-w-2xl animate-slide-up px-4">
-        <div className="overflow-hidden rounded-2xl bg-[#0f0f0f] border border-white/10 shadow-2xl shadow-black/50">
-          {/* Input row */}
-          <div className="flex items-center gap-3 border-b border-white/10 px-5 py-4">
-            <Search className="h-5 w-5 shrink-0 text-[#e50914]" />
+        <div className="overflow-hidden rounded-2xl bg-white border border-gray-200 shadow-2xl">
+          <div className="flex items-center gap-3 border-b border-gray-200 px-5 py-4">
+            <Search className="h-5 w-5 shrink-0 text-red-600" />
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="جستجو در بیش از ۲۰۰۰ محصول... (مثلا: وی پروتئین، کراتین)"
-              className="flex-1 bg-transparent text-sm font-bold text-white outline-none placeholder:font-normal placeholder:text-zinc-500"
+              className="flex-1 bg-transparent text-sm font-bold text-gray-900 outline-none placeholder:font-normal placeholder:text-gray-500"
             />
             <button
               onClick={close}
-              className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-white/5 hover:text-[#e50914]"
+              className="rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-red-600"
               aria-label="بستن جستجو"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
-          {/* No query yet: quick suggestions */}
           {!debouncedQuery.trim() && (
             <div className="p-5">
-              <p className="mb-3 flex items-center gap-1.5 text-xs font-bold text-zinc-500">
-                <TrendingUp className="h-3.5 w-3.5 text-[#e50914]" />
+              <p className="mb-3 flex items-center gap-1.5 text-xs font-bold text-gray-500">
+                <TrendingUp className="h-3.5 w-3.5 text-red-600" />
                 جستجوهای پرطرفدار
               </p>
               <div className="flex flex-wrap gap-2">
@@ -92,7 +90,7 @@ export default function SearchOverlay() {
                   <button
                     key={s}
                     onClick={() => setQuery(s)}
-                    className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-bold text-zinc-400 transition-all duration-300 hover:border-[#e50914] hover:text-[#e50914]"
+                    className="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-bold text-gray-700 transition-all duration-300 hover:border-red-600 hover:text-red-600"
                   >
                     {s}
                   </button>
@@ -101,11 +99,10 @@ export default function SearchOverlay() {
             </div>
           )}
 
-          {/* Results */}
           {debouncedQuery.trim() && (
             <div className="max-h-[50vh] overflow-y-auto p-2">
               {results.length === 0 ? (
-                <p className="p-6 text-center text-sm text-zinc-500">
+                <p className="p-6 text-center text-sm text-gray-500">
                   محصولی با عبارت «{debouncedQuery}» پیدا نشد.
                 </p>
               ) : (
@@ -116,33 +113,30 @@ export default function SearchOverlay() {
                       key={p.id}
                       href={`/product/${p.slug}`}
                       onClick={close}
-                      className="flex items-center gap-3 rounded-xl p-3 transition-colors duration-300 hover:bg-white/5"
+                      className="flex items-center gap-3 rounded-xl p-3 transition-colors duration-300 hover:bg-gray-50"
                     >
                       <div
-                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg text-lg font-black text-white/20"
-                        style={{
-                          background: `linear-gradient(135deg, hsl(${p.id.charCodeAt(0) % 360} 45% 15%), hsl(${p.id.charCodeAt(0) % 360} 55% 8%))`,
-                        }}
+                        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-lg font-black text-gray-400"
                       >
                         {p.brand.charAt(0)}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-extrabold text-zinc-200">
+                        <p className="truncate text-sm font-extrabold text-gray-900">
                           {p.name}
                         </p>
-                        <p className="truncate text-xs text-zinc-500">
+                        <p className="truncate text-xs text-gray-500">
                           {p.brand} — {p.subcategory}
                         </p>
                       </div>
                       <div className="shrink-0 text-left">
-                        <p className="text-sm font-black text-[#e50914]">
+                        <p className="text-sm font-black text-red-600">
                           {formatToman(toToman(v?.priceInAED ?? 0))}
                         </p>
-                        <p className="text-[10px] font-bold text-zinc-500">
+                        <p className="text-[10px] font-bold text-gray-500">
                           تومان
                         </p>
                       </div>
-                      <ArrowLeft className="h-4 w-4 shrink-0 text-zinc-600" />
+                      <ArrowLeft className="h-4 w-4 shrink-0 text-gray-400" />
                     </Link>
                   );
                 })

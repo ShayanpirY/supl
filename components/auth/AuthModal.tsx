@@ -52,32 +52,31 @@ export default function AuthModal() {
   return (
     <div className="fixed inset-0 z-[70] flex animate-fade-in items-center justify-center p-4">
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={close}
       />
 
-      <div className="relative w-full max-w-md animate-slide-up rounded-2xl bg-[#0f0f0f] border border-white/10 shadow-2xl shadow-black/50 p-8">
+      <div className="relative w-full max-w-md animate-slide-up rounded-2xl bg-white border border-gray-200 shadow-2xl p-8">
         <button
           onClick={close}
-          className="absolute left-4 top-4 rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-white/5 hover:text-[#e50914]"
+          className="absolute left-4 top-4 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-red-600"
           aria-label="بستن"
         >
           <X className="h-5 w-5" />
         </button>
 
-        {/* Header */}
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e50914]/10 text-[#e50914]">
+          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-600">
             {step === "phone" ? (
               <Smartphone className="h-7 w-7" />
             ) : (
               <KeyRound className="h-7 w-7" />
             )}
           </div>
-          <h2 className="text-xl font-black text-white">
+          <h2 className="text-xl font-black text-gray-900">
             {step === "phone" ? "ورود / ثبت‌نام" : "کد تایید"}
           </h2>
-          <p className="mt-1.5 text-sm text-zinc-400">
+          <p className="mt-1.5 text-sm text-gray-600">
             {step === "phone"
               ? "برای ادامه، شماره موبایل خود را وارد کنید"
               : `کد تایید به شماره ${phone} ارسال شد`}
@@ -87,7 +86,7 @@ export default function AuthModal() {
         {step === "phone" ? (
           <form onSubmit={sendOtp} className="space-y-4">
             <div className="relative">
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 rounded-lg bg-white/5 border border-white/10 px-2 py-1 text-xs font-bold text-zinc-400">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 rounded-lg bg-gray-100 border border-gray-200 px-2 py-1 text-xs font-bold text-gray-600">
                 +98
               </span>
               <input
@@ -97,17 +96,17 @@ export default function AuthModal() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/[^\d]/g, ""))}
                 placeholder="9123456789"
-                className="w-full rounded-xl border border-white/10 bg-white/5 py-3.5 pl-4 pr-20 text-sm font-bold text-white outline-none transition-colors focus:border-[#e50914] focus:ring-2 focus:ring-[#e50914]/50"
+                className="w-full rounded-xl border border-gray-300 bg-gray-50 py-3.5 pl-4 pr-20 text-sm font-bold text-gray-900 outline-none transition-colors focus:border-red-600 focus:ring-2 focus:ring-red-600/50"
               />
             </div>
             {error && (
-              <p className="text-xs font-bold text-[#e50914]">{error}</p>
+              <p className="text-xs font-bold text-red-600">{error}</p>
             )}
-            <button type="submit" className="w-full rounded-xl bg-[#e50914] py-4 text-base font-bold text-white transition-all duration-300 hover:bg-[#ff1f2c] hover:shadow-[0_0_25px_rgba(229,9,20,0.5)]">
+            <button type="submit" className="w-full rounded-xl bg-red-600 py-4 text-base font-bold text-white transition-all duration-300 hover:bg-red-700 hover:shadow-lg">
               دریافت کد تایید
             </button>
-            <p className="flex items-center justify-center gap-1.5 text-[11px] text-zinc-500">
-              <ShieldCheck className="h-3.5 w-3.5 text-green-500" />
+            <p className="flex items-center justify-center gap-1.5 text-[11px] text-gray-500">
+              <ShieldCheck className="h-3.5 w-3.5 text-green-600" />
               اطلاعات شما محرمانه می‌ماند
             </p>
           </form>
@@ -121,13 +120,13 @@ export default function AuthModal() {
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/[^\d]/g, ""))}
               placeholder="•••••"
-              className="w-full rounded-xl border border-white/10 bg-white/5 py-3.5 text-center text-2xl font-black tracking-[0.5em] text-white outline-none transition-colors focus:border-[#e50914] focus:ring-2 focus:ring-[#e50914]/50"
+              className="w-full rounded-xl border border-gray-300 bg-gray-50 py-3.5 text-center text-2xl font-black tracking-[0.5em] text-gray-900 outline-none transition-colors focus:border-red-600 focus:ring-2 focus:ring-red-600/50"
               autoFocus
             />
             {error && (
-              <p className="text-xs font-bold text-[#e50914]">{error}</p>
+              <p className="text-xs font-bold text-red-600">{error}</p>
             )}
-            <button type="submit" className="w-full rounded-xl bg-[#e50914] py-4 text-base font-bold text-white transition-all duration-300 hover:bg-[#ff1f2c] hover:shadow-[0_0_25px_rgba(229,9,20,0.5)]">
+            <button type="submit" className="w-full rounded-xl bg-red-600 py-4 text-base font-bold text-white transition-all duration-300 hover:bg-red-700 hover:shadow-lg">
               تایید و ورود
             </button>
             <button
@@ -136,7 +135,7 @@ export default function AuthModal() {
                 setStep("phone");
                 setError("");
               }}
-              className="mx-auto flex items-center gap-1.5 text-xs font-bold text-zinc-500 transition-colors hover:text-[#e50914]"
+              className="mx-auto flex items-center gap-1.5 text-xs font-bold text-gray-500 transition-colors hover:text-red-600"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               {sent ? "ارسال مجدد کد" : "ویرایش شماره موبایل"}

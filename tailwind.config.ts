@@ -15,9 +15,9 @@ const config: Config = {
           dark: "#1A1A1A",
         },
         surface: {
-          DEFAULT: "#0a0a0a",
-          subtle: "#171717",
-          card: "#0f0f0f",
+          DEFAULT: "#ffffff",
+          subtle: "#f9fafb",
+          card: "#ffffff",
         },
       },
       fontFamily: {

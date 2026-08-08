@@ -42,21 +42,21 @@ const ITEMS = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-[#0a0a0a] py-12">
+    <section className="bg-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="section-title">چرا مکمل؟</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {ITEMS.map((item) => (
             <div
               key={item.title}
-              className="flex items-start gap-4 rounded-2xl border border-white/10 bg-[#0f0f0f] p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#e50914]/30 hover:shadow-[0_0_25px_rgba(229,9,20,0.1)]"
+              className="flex items-start gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-red-600/30 hover:shadow-md"
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#e50914]/10 text-[#e50914]">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
                 <item.icon className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="font-extrabold text-white">{item.title}</h3>
-                <p className="mt-1.5 text-sm leading-6 text-zinc-400">
+                <h3 className="font-extrabold text-gray-900">{item.title}</h3>
+                <p className="mt-1.5 text-sm leading-6 text-gray-600">
                   {item.desc}
                 </p>
               </div>

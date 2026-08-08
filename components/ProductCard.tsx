@@ -13,12 +13,9 @@ function PlaceholderImage({ product }: { product: Product }) {
   const hue = product.id.charCodeAt(0) % 360;
   return (
     <div
-      className="flex aspect-square w-full items-center justify-center"
-      style={{
-        background: `linear-gradient(135deg, hsl(${hue} 45% 15%), hsl(${hue} 55% 8%))`,
-      }}
+      className="flex aspect-square w-full items-center justify-center bg-gray-100"
     >
-      <span className="select-none text-4xl font-black text-white/20 drop-shadow-md">
+      <span className="select-none text-4xl font-black text-gray-300">
         {product.brand.charAt(0)}
       </span>
     </div>
@@ -45,7 +42,7 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0f0f0f] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:border-[#e50914]/50 hover:shadow-[0_0_30px_rgba(229,9,20,0.15)]">
+    <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md">
       <div className="relative">
         <Link href={`/product/${product.slug}`} className="block">
           <PlaceholderImage product={product} />
@@ -54,18 +51,18 @@ export default function ProductCard({ product }: { product: Product }) {
         {/* Badges */}
         <div className="absolute right-3 top-3 flex flex-col gap-1.5">
           {discount > 0 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#e50914] px-2.5 py-1 text-[11px] font-black text-white shadow-md shadow-red-900/50">
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-600 px-2.5 py-1 text-[11px] font-black text-white shadow-md">
               <Flame className="h-3 w-3" />
               ٪{discount} تخفیف
             </span>
           )}
           {product.bestSeller && (
-            <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-[11px] font-bold text-white border border-white/10">
+            <span className="rounded-full bg-gray-800 px-2.5 py-1 text-[11px] font-bold text-white">
               پرفروش
             </span>
           )}
           {product.isNew && (
-            <span className="rounded-full bg-red-600/20 border border-red-500/30 px-2.5 py-1 text-[11px] font-bold text-red-400">
+            <span className="rounded-full bg-red-100 border border-red-200 px-2.5 py-1 text-[11px] font-bold text-red-700">
               جدید
             </span>
           )}
@@ -73,15 +70,15 @@ export default function ProductCard({ product }: { product: Product }) {
 
         {/* Unboxing video badge */}
         {product.hasUnboxingVideo && (
-          <span className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-sm px-2 py-1 text-[10px] font-bold text-white border border-white/10">
-            <Video className="h-3 w-3 text-[#e50914]" />
+          <span className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-[10px] font-bold text-gray-800 border border-gray-200 shadow-sm">
+            <Video className="h-3 w-3 text-red-600" />
             ویدیوی آنباکسینگ
           </span>
         )}
 
         {!inStock && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-            <span className="rounded-full bg-zinc-800 px-4 py-1.5 text-xs font-bold text-white border border-white/10">
+          <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-sm">
+            <span className="rounded-full bg-gray-800 px-4 py-1.5 text-xs font-bold text-white">
               ناموجود
             </span>
           </div>
@@ -89,40 +86,40 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        <p className="text-[11px] font-bold text-zinc-500">{product.brand}</p>
+        <p className="text-[11px] font-bold text-gray-500">{product.brand}</p>
         <Link
           href={`/product/${product.slug}`}
-          className="mt-1 line-clamp-2 text-sm font-extrabold leading-6 text-zinc-200 transition-colors duration-300 hover:text-[#e50914]"
+          className="mt-1 line-clamp-2 text-sm font-extrabold leading-6 text-gray-900 transition-colors duration-300 hover:text-red-600"
         >
           {product.name}
         </Link>
 
-        <div className="mt-1.5 flex items-center gap-1 text-xs text-zinc-500">
+        <div className="mt-1.5 flex items-center gap-1 text-xs text-gray-500">
           <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-          <span className="font-bold text-zinc-300">{product.rating}</span>
+          <span className="font-bold text-gray-800">{product.rating}</span>
           <span>({product.reviewCount} نظر)</span>
         </div>
 
         {/* Weight / flavor badge */}
         <div className="mt-2">
-          <span className="inline-block rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold text-zinc-400">
+          <span className="inline-block rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-[10px] font-bold text-gray-600">
             {variant.label}
           </span>
         </div>
       </div>
 
-      <div className="flex items-end justify-between border-t border-white/5 p-4 pt-3">
+      <div className="flex items-end justify-between border-t border-gray-100 p-4 pt-3">
         <div>
           {oldPrice && (
-            <p className="text-xs text-zinc-600 line-through" dir="rtl">
+            <p className="text-xs text-gray-400 line-through" dir="rtl">
               {formatToman(oldPrice)} تومان
             </p>
           )}
           <p className="flex items-baseline gap-1">
-            <span className={cn("text-lg font-black", inStock ? "text-[#e50914]" : "text-zinc-600")}>
+            <span className={cn("text-lg font-black", inStock ? "text-red-600" : "text-gray-400")}>
               {formatToman(price)}
             </span>
-            <span className="text-xs font-bold text-zinc-500">تومان</span>
+            <span className="text-xs font-bold text-gray-500">تومان</span>
           </p>
         </div>
 
@@ -130,7 +127,7 @@ export default function ProductCard({ product }: { product: Product }) {
           onClick={handleAddToCart}
           disabled={!inStock}
           size="sm"
-          className="h-10 gap-2 rounded-xl font-bold transition-all duration-300 hover:shadow-[0_0_20px_rgba(229,9,20,0.4)]"
+          className="h-10 gap-2 rounded-xl font-bold transition-all duration-300"
         >
           <ShoppingCart className="h-4 w-4" />
           <span className="hidden sm:inline">افزودن به سبد خرید</span>
@@ -138,8 +135,8 @@ export default function ProductCard({ product }: { product: Product }) {
         </Button>
       </div>
 
-      <div className="flex items-center gap-1 border-t border-white/5 px-4 py-2.5 text-[10px] font-bold text-zinc-500">
-        <BadgeCheck className="h-3.5 w-3.5 text-green-500" />
+      <div className="flex items-center gap-1 border-t border-gray-100 px-4 py-2.5 text-[10px] font-bold text-gray-500">
+        <BadgeCheck className="h-3.5 w-3.5 text-green-600" />
         ضمانت اصالت کالا — واردات مستقیم از دبی
       </div>
     </div>

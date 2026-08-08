@@ -11,13 +11,13 @@ export default function ProductGrid({
   seeAllHref?: string;
 }) {
   return (
-    <section className="container-x py-10">
+    <section className="bg-white py-10">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="section-title mb-0">{title}</h2>
         {seeAllHref && (
           <a
             href={seeAllHref}
-            className="text-sm font-bold text-brand-red hover:underline"
+            className="text-sm font-bold text-red-600 hover:underline"
           >
             مشاهده همه ←
           </a>

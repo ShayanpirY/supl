@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Search, ShoppingCart, User, Menu, X, ChevronDown, Flame } from "lucide-react";
+import { Search, ShoppingCart, User, Menu, X, ChevronDown } from "lucide-react";
 import { useCartStore } from "@/store/cart-store";
 import { useUIStore } from "@/store/ui-store";
 import { Button } from "@/components/ui/button";
@@ -12,14 +12,14 @@ import { useState } from "react";
 function Logo() {
   return (
     <Link href="/" className="flex shrink-0 items-center gap-2.5 group">
-      <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-[#e50914] text-xl font-black text-white shadow-[0_0_15px_rgba(229,9,20,0.5)] transition-shadow duration-300 group-hover:shadow-[0_0_25px_rgba(229,9,20,0.8)]">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-xl font-black text-white">
         م
       </div>
-      <div className="">
-        <span className="block text-xl font-black tracking-tight text-white">
+      <div className="leading-snug">
+        <span className="block text-xl font-black tracking-tight text-gray-800">
           مکمل
         </span>
-        <span className="block text-[10px] font-bold text-zinc-500">
+        <span className="block text-[10px] font-bold text-gray-500">
           فروشگاه مکمل‌های ورزشی
         </span>
       </div>
@@ -35,12 +35,12 @@ export default function Navbar() {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (
-    <header className="sticky top-4 z-50 mx-auto max-w-7xl rounded-2xl shadow-2xl shadow-red-900/20 backdrop-blur-xl bg-black/80 border border-white/10">
-      <div className="px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200 shadow-sm">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Main header row */}
         <div className="flex h-16 items-center justify-between gap-4">
           <button
-            className="rounded-lg p-2 text-zinc-400 hover:bg-white/5 hover:text-white lg:hidden"
+            className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-red-600 lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="منوی موبایل"
           >
@@ -55,9 +55,9 @@ export default function Navbar() {
               <Input
                 type="search"
                 placeholder="جستجو در بیش از ۲۰۰۰ محصول..."
-                className="w-full rounded-xl border-white/10 bg-white/5 pr-10 text-sm text-zinc-300 placeholder:text-zinc-500 focus:border-[#e50914] focus:ring-2 focus:ring-[#e50914]/50"
+                className="w-full rounded-lg border border-gray-300 bg-gray-100 pr-10 text-sm text-gray-900 placeholder:text-gray-500 focus:bg-white focus:border-red-600 focus:ring-1 focus:ring-red-600"
               />
-              <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+              <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             </div>
           </div>
 
@@ -67,7 +67,7 @@ export default function Navbar() {
               variant="ghost"
               size="sm"
               onClick={() => setAuthModalOpen(true)}
-              className="hidden items-center gap-2 text-zinc-400 hover:bg-white/5 hover:text-white sm:flex"
+              className="hidden items-center gap-2 text-gray-700 hover:bg-gray-100 hover:text-red-600 sm:flex font-bold"
             >
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">ورود / ثبت‌نام</span>
@@ -76,13 +76,13 @@ export default function Navbar() {
             {/* Cart */}
             <button
               onClick={() => setCartOpen(true)}
-              className="relative flex items-center gap-2 rounded-xl bg-white/5 px-3.5 py-2 text-sm font-bold text-white transition-all duration-300 hover:bg-[#e50914] hover:shadow-[0_0_20px_rgba(229,9,20,0.4)]"
+              className="relative flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3.5 py-2 text-sm font-bold text-gray-800 transition-all duration-300 hover:border-red-600 hover:text-red-600"
               aria-label="سبد خرید"
             >
               <ShoppingCart className="h-5 w-5" />
               <span className="hidden sm:inline">سبد خرید</span>
               {totalItems > 0 && (
-                <span className="absolute -left-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#e50914] px-1 text-[11px] font-black text-white ring-2 ring-[#0a0a0a]">
+                <span className="absolute -left-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-[11px] font-black text-white ring-2 ring-white">
                   {totalItems}
                 </span>
               )}
@@ -97,7 +97,7 @@ export default function Navbar() {
         >
           <Link
             href="/"
-            className="shrink-0 px-4 py-3 text-sm font-bold text-zinc-300 transition-all duration-300 hover:bg-white/5 hover:text-white relative after:absolute after:bottom-0 after:right-4 after:left-4 after:h-0.5 after:bg-[#e50914] after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100"
+            className="shrink-0 px-4 py-3 text-sm font-bold text-gray-800 transition-all duration-300 hover:text-red-600 relative border-b-2 border-transparent hover:border-red-600"
           >
             خانه
           </Link>
@@ -110,35 +110,36 @@ export default function Navbar() {
               onMouseLeave={() => setActiveCategory(null)}
             >
               <button
-                className={`shrink-0 flex items-center gap-1.5 px-4 py-3 text-sm font-bold transition-all duration-300 relative after:absolute after:bottom-0 after:right-4 after:left-4 after:h-0.5 after:bg-[#e50914] after:scale-x-0 after:transition-transform after:duration-300 hover:bg-white/5 hover:text-white ${
-                  activeCategory === idx ? "text-white after:scale-x-100" : "text-zinc-400"
+                className={`shrink-0 flex items-center gap-1.5 px-4 py-3 text-sm font-bold transition-all duration-300 relative border-b-2 ${
+                  activeCategory === idx
+                    ? "text-red-600 border-red-600"
+                    : "text-gray-800 border-transparent hover:text-red-600 hover:border-red-600"
                 }`}
               >
                 {cat.title}
-                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${activeCategory === idx ? "rotate-180 text-[#e50914]" : ""}`} />
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${activeCategory === idx ? "rotate-180 text-red-600" : ""}`} />
               </button>
 
               {/* Dropdown panel */}
               {activeCategory === idx && (
-                <div className="absolute top-full right-0 z-40 w-[720px] rounded-b-2xl border border-t-0 border-white/10 bg-zinc-900/95 backdrop-blur-xl shadow-2xl shadow-black/50 animate-fade-in">
-                  <div className="flex">
-                    <div className="grid flex-1 grid-cols-2 gap-6 p-6">
+                <div className="absolute top-full right-0 left-0 z-[100] w-full rounded-b-2xl border border-t-2 border-red-600 bg-white text-gray-800 shadow-2xl p-8 animate-fade-in">
+                  <div className="mx-auto max-w-7xl flex">
+                    <div className="grid flex-1 grid-cols-2 gap-8">
                       {cat.children.map((child) => (
                         <div key={child.name}>
                           <Link
                             href={child.href}
-                            className="mb-2 flex items-center gap-2 text-sm font-extrabold text-[#e50914] hover:underline"
+                            className="mb-3 block text-sm font-extrabold text-red-600 border-b border-gray-100 pb-2 hover:underline"
                           >
                             {child.name}
                           </Link>
-                          <ul className="space-y-1.5">
+                          <ul className="space-y-2">
                             {child.products.map((name) => (
                               <li key={name}>
                                 <Link
                                   href={`/search?q=${encodeURIComponent(name)}`}
-                                  className="flex items-center gap-2 text-sm text-zinc-400 transition-colors duration-300 hover:text-white hover:translate-x-[-4px]"
+                                  className="flex items-center gap-2 text-sm text-gray-600 transition-all duration-300 hover:text-red-600 hover:translate-x-[-4px]"
                                 >
-                                  <span className="h-1 w-1 rounded-full bg-zinc-600 transition-colors duration-300 group-hover:bg-[#e50914]" />
                                   {name}
                                 </Link>
                               </li>
@@ -149,7 +150,7 @@ export default function Navbar() {
                     </div>
 
                     {/* Promo banner inside dropdown */}
-                    <div className="hidden w-56 shrink-0 flex-col justify-between bg-gradient-to-b from-[#e50914] to-[#B70910] p-5 text-white md:flex rounded-br-2xl">
+                    <div className="hidden w-64 shrink-0 flex-col justify-between bg-red-600 p-6 text-white md:flex rounded-xl">
                       <div>
                         <p className="text-lg font-extrabold leading-snug">
                           {cat.titleEn}
@@ -160,7 +161,7 @@ export default function Navbar() {
                       </div>
                       <Link
                         href={cat.href}
-                        className="mt-4 inline-flex items-center justify-center rounded-lg bg-white px-4 py-2 text-xs font-bold text-[#e50914] transition-transform hover:scale-105"
+                        className="mt-4 inline-flex items-center justify-center rounded-lg bg-white px-4 py-2 text-xs font-bold text-red-600 transition-transform hover:scale-105"
                       >
                         مشاهده همه
                       </Link>
@@ -173,7 +174,7 @@ export default function Navbar() {
 
           <Link
             href="/blog"
-            className="shrink-0 px-4 py-3 text-sm font-bold text-zinc-400 transition-all duration-300 hover:bg-white/5 hover:text-white relative after:absolute after:bottom-0 after:right-4 after:left-4 after:h-0.5 after:bg-[#e50914] after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100"
+            className="shrink-0 px-4 py-3 text-sm font-bold text-gray-800 transition-all duration-300 hover:text-red-600 relative border-b-2 border-transparent hover:border-red-600"
           >
             مجله ورزشی
           </Link>
@@ -182,38 +183,38 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-white/10 bg-black/90 backdrop-blur-xl lg:hidden">
+        <div className="border-t border-gray-200 bg-white lg:hidden">
           <div className="mx-auto max-w-7xl space-y-1 px-4 py-4 sm:px-6 lg:px-8">
             <div className="relative mb-3">
               <Input
                 type="search"
                 placeholder="جستجو در محصولات..."
-                className="w-full rounded-xl border-white/10 bg-white/5 pr-10 text-sm text-zinc-300 placeholder:text-zinc-500"
+                className="w-full rounded-lg border border-gray-300 bg-gray-100 pr-10 text-sm text-gray-900 placeholder:text-gray-500"
               />
-              <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+              <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             </div>
             <div className="grid grid-cols-2 gap-2">
               <Link
                 href="/category/sports-supplements"
-                className="rounded-xl bg-[#e50914] px-4 py-3 text-center text-sm font-bold text-white"
+                className="rounded-lg bg-red-600 px-4 py-3 text-center text-sm font-bold text-white"
               >
                 مکمل‌های ورزشی
               </Link>
               <Link
                 href="/category/general-health"
-                className="rounded-xl bg-white/5 px-4 py-3 text-center text-sm font-bold text-zinc-300"
+                className="rounded-lg bg-gray-100 px-4 py-3 text-center text-sm font-bold text-gray-800"
               >
                 مکمل‌های عمومی
               </Link>
               <Link
                 href="/category/weight-loss"
-                className="rounded-xl bg-white/5 px-4 py-3 text-center text-sm font-bold text-zinc-300"
+                className="rounded-lg bg-gray-100 px-4 py-3 text-center text-sm font-bold text-gray-800"
               >
                 کاهش وزن
               </Link>
               <Link
                 href="/brands"
-                className="rounded-xl bg-white/5 px-4 py-3 text-center text-sm font-bold text-zinc-300"
+                className="rounded-lg bg-gray-100 px-4 py-3 text-center text-sm font-bold text-gray-800"
               >
                 برندها
               </Link>

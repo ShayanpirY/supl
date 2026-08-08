@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl" className={cn("font-sans", vazir.variable)}>
-      <body className="flex min-h-screen flex-col bg-[#0a0a0a] text-zinc-100 font-vazir antialiased">
+      <body className="flex min-h-screen flex-col bg-white text-gray-900 font-vazir antialiased">
         <HeaderTop />
         <Navbar />
         <main className="flex-1">{children}</main>
