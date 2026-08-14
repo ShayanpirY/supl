@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { existsSync } from "fs";
+import { join } from "path";
 import { NAV_CATEGORIES, BRANDS } from "@/lib/data/categories";
 import { PRODUCTS } from "@/lib/data/products";
+import { PRODUCT_IMAGE_PLACEHOLDER } from "@/lib/product-images";
 import type { ProductFilters } from "@/lib/product-filters";
 import type {
   NavCategory,
@@ -173,6 +176,30 @@ for (const category of NAV_CATEGORIES) {
   }
 }
 
+function imageFileExists(url: string): boolean {
+  if (!url || !url.startsWith("/")) return false;
+  try {
+    return existsSync(join(process.cwd(), "public", url));
+  } catch {
+    return false;
+  }
+}
+
+function normalizeProductImages(images: ProductImage[]): ProductImage[] {
+  const valid = (images ?? []).filter((img) => imageFileExists(img.url));
+  if (valid.length > 0) return valid;
+  return [{ url: PRODUCT_IMAGE_PLACEHOLDER, alt: "تصویر محصول" }];
+}
+
+function normalizeStaticProducts(products: Product[]): Product[] {
+  return products.map((product) => ({
+    ...product,
+    images: normalizeProductImages(product.images),
+  }));
+}
+
+const STATIC_PRODUCTS = normalizeStaticProducts(PRODUCTS);
+
 function mapToProduct(product: {
   id: string;
   slug: string;
@@ -207,7 +234,9 @@ function mapToProduct(product: {
     subcategory: product.subcategory,
     summary: product.summary ?? "",
     description: product.description ?? "",
-    images: (product.images as unknown as ProductImage[]) ?? [],
+    images: normalizeProductImages(
+      (product.images as unknown as ProductImage[]) ?? [],
+    ),
     tags: (product.tags as unknown as string[]) ?? [],
     variants,
     facts: (product.facts as unknown as SupplementFactsRow[]) ?? undefined,
@@ -298,10 +327,10 @@ async function fetchAllProducts(): Promise<Product[]> {
       orderBy: { createdAt: "desc" },
     });
     if (dbProducts.length > 0) return dbProducts.map(mapToProduct);
-    return PRODUCTS;
+    return STATIC_PRODUCTS;
   } catch (error) {
     console.error("[db] fetchAllProducts failed, using fallback data:", error);
-    return PRODUCTS;
+    return STATIC_PRODUCTS;
   }
 }
 
@@ -322,10 +351,10 @@ export async function getProducts(
       where,
       orderBy: { createdAt: "desc" },
     });
-    products = dbProducts.length > 0 ? dbProducts.map(mapToProduct) : PRODUCTS;
+    products = dbProducts.length > 0 ? dbProducts.map(mapToProduct) : STATIC_PRODUCTS;
   } catch (error) {
     console.error("[db] getProducts failed, using fallback data:", error);
-    products = PRODUCTS;
+    products = STATIC_PRODUCTS;
   }
 
   return applyFiltersInMemory(products, filters);

@@ -137,3 +137,56 @@ body {
   border-radius: 9999px;
   background: #dc2626;
 }
+
+/* ---------------------------------------------------------------------------
+   Swiper — Flash Sale slider (on red background)
+--------------------------------------------------------------------------- */
+.flash-slider .swiper-slide {
+  height: auto;
+}
+
+.flash-slider .swiper-button-prev,
+.flash-slider .swiper-button-next {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #dc2626;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.flash-slider:hover .swiper-button-prev,
+.flash-slider:hover .swiper-button-next {
+  opacity: 1;
+}
+
+.flash-slider .swiper-button-prev::after,
+.flash-slider .swiper-button-next::after {
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.flash-slider .swiper-button-prev:hover,
+.flash-slider .swiper-button-next:hover {
+  transform: scale(1.1);
+}
+
+.flash-slider .swiper-button-disabled {
+  display: none;
+}
+
+.flash-slider .swiper-pagination-bullet {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.flash-slider .swiper-pagination-bullet-active {
+  width: 20px;
+  border-radius: 9999px;
+  background: #ffffff;
+}

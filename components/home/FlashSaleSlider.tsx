@@ -14,7 +14,7 @@ import { formatToman } from "@/lib/currency";
 import { useCartStore } from "@/store/cart-store";
 import { getProductImage } from "@/lib/product-images";
 
-function SliderCard({ product }: { product: Product }) {
+function FlashCard({ product }: { product: Product }) {
   const { toToman } = useCurrency();
   const addItem = useCartStore((s) => s.addItem);
   const setCartOpen = useCartStore((s) => s.setOpen);
@@ -40,7 +40,7 @@ function SliderCard({ product }: { product: Product }) {
   };
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl">
       <div className="relative overflow-hidden bg-gray-100">
         <Link href={`/product/${product.slug}`} className="block">
           <div className="relative aspect-square w-full">
@@ -48,15 +48,18 @@ function SliderCard({ product }: { product: Product }) {
               src={imageUrl}
               alt={product.images?.[0]?.alt ?? product.name}
               fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+              sizes="(max-width: 768px) 50vw, 33vw"
               className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
             />
           </div>
         </Link>
 
         {discount > 0 && (
-          <span className="absolute right-2 top-2 rounded-full bg-red-600 px-2 py-1 text-[10px] font-black text-white shadow-md">
-            ٪{discount} تخفیف
+          <span className="absolute right-2 top-2 flex h-14 w-14 flex-col items-center justify-center rounded-full bg-red-600 text-white shadow-md">
+            <span className="text-sm font-black leading-none">٪{discount}</span>
+            <span className="mt-0.5 text-[9px] font-bold leading-none">
+              تخفیف
+            </span>
           </span>
         )}
 
@@ -72,7 +75,7 @@ function SliderCard({ product }: { product: Product }) {
       <div className="flex flex-1 flex-col p-3">
         <Link
           href={`/product/${product.slug}`}
-          className="line-clamp-2 min-h-10 text-sm font-extrabold leading-5 text-gray-900 transition-colors duration-300 hover:text-red-600"
+          className="line-clamp-2 min-h-10 text-xs font-extrabold leading-5 text-gray-900 transition-colors duration-300 hover:text-red-600"
         >
           {product.name}
         </Link>
@@ -113,37 +116,32 @@ function SliderCard({ product }: { product: Product }) {
   );
 }
 
-interface ProductSliderProps {
-  products: Product[];
-}
-
-export default function ProductSlider({ products }: ProductSliderProps) {
+export default function FlashSaleSlider({ products }: { products: Product[] }) {
   if (products.length === 0) return null;
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         slidesPerView={2}
         spaceBetween={12}
-        loop={products.length > 5}
+        loop={products.length > 4}
         navigation
         pagination={{ clickable: true }}
         autoplay={{
-          delay: 4500,
+          delay: 4000,
           disableOnInteraction: true,
           pauseOnMouseEnter: true,
         }}
         breakpoints={{
-          640: { slidesPerView: 3, spaceBetween: 16 },
-          1024: { slidesPerView: 4, spaceBetween: 16 },
-          1280: { slidesPerView: 5, spaceBetween: 16 },
+          768: { slidesPerView: 2, spaceBetween: 16 },
+          1024: { slidesPerView: 3, spaceBetween: 16 },
         }}
-        className="product-slider !pb-9"
+        className="flash-slider !pb-9"
       >
         {products.map((product) => (
           <SwiperSlide key={product.id}>
-            <SliderCard product={product} />
+            <FlashCard product={product} />
           </SwiperSlide>
         ))}
       </Swiper>

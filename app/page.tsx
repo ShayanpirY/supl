@@ -1,10 +1,18 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import HeroBanner from "@/components/HeroBanner";
 import CategoryGrid from "@/components/CategoryGrid";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import ProductSlider from "@/components/home/ProductSlider";
 import PromoBanners from "@/components/home/PromoBanners";
 import TopBrands from "@/components/home/TopBrands";
+import FlashSale from "@/components/home/FlashSale";
+import {
+  CategoryGridSkeleton,
+  FlashSaleSkeleton,
+  ProductSectionSkeleton,
+  TopBrandsSkeleton,
+} from "@/components/home/skeletons";
 import { getProducts } from "@/lib/data/db";
 import type { Product } from "@/lib/types";
 
@@ -49,39 +57,59 @@ function ProductSection({
   );
 }
 
-export default async function HomePage() {
-  const [bestSellers, newest] = await Promise.all([
-    getProducts({ sort: "bestSelling" }),
-    getProducts({ sort: "newest" }),
-  ]);
+async function BestsellersSection() {
+  const bestSellers = await getProducts({ sort: "bestSelling" });
+  return (
+    <ProductSection
+      title="پرفروش‌ترین مکمل‌ها"
+      seeAllHref="/products?sort=bestSelling"
+      products={bestSellers.slice(0, 10)}
+    />
+  );
+}
 
-  const topSelling = bestSellers.slice(0, 10);
+async function NewArrivalsSection() {
+  const newest = await getProducts({ sort: "newest" });
   const newArrivals = [
     ...newest.filter((product) => product.isNew),
     ...newest.filter((product) => !product.isNew),
   ].slice(0, 10);
+  return (
+    <ProductSection
+      title="جدیدترین محصولات"
+      seeAllHref="/products?sort=newest"
+      products={newArrivals}
+    />
+  );
+}
 
+export default async function HomePage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <HeroBanner />
 
-      <CategoryGrid />
+      <Suspense fallback={<FlashSaleSkeleton />}>
+        <FlashSale />
+      </Suspense>
 
-      <ProductSection
-        title="پرفروش‌ترین مکمل‌ها"
-        seeAllHref="/products?sort=bestSelling"
-        products={topSelling}
-      />
+      <Suspense fallback={<CategoryGridSkeleton />}>
+        <CategoryGrid />
+      </Suspense>
+
+      <Suspense fallback={<ProductSectionSkeleton />}>
+        <BestsellersSection />
+      </Suspense>
 
       <PromoBanners />
 
-      <ProductSection
-        title="جدیدترین محصولات"
-        seeAllHref="/products?sort=newest"
-        products={newArrivals}
-      />
+      <Suspense fallback={<ProductSectionSkeleton />}>
+        <NewArrivalsSection />
+      </Suspense>
 
-      <TopBrands />
+      <Suspense fallback={<TopBrandsSkeleton />}>
+        <TopBrands />
+      </Suspense>
+
       <WhyChooseUs />
     </div>
   );

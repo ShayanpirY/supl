@@ -1,6 +1,7 @@
 import { Product } from "../types";
+import { PRODUCT_IMAGE_PLACEHOLDER } from "@/lib/product-images";
 
-export const PRODUCTS: Product[] = [
+const RAW_PRODUCTS: Product[] = [
   {
     id: "p1",
     slug: "optimum-nutrition-gold-standard-whey",
@@ -342,6 +343,14 @@ export const PRODUCTS: Product[] = [
     ],
   },
 ];
+
+export const PRODUCTS: Product[] = RAW_PRODUCTS.map((product) => ({
+  ...product,
+  images: product.images.map((image) => ({
+    url: PRODUCT_IMAGE_PLACEHOLDER,
+    alt: image.alt,
+  })),
+}));
 
 export function getProductBySlug(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug);
