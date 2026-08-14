@@ -70,3 +70,70 @@ body {
     @apply h-7 w-1.5 rounded-full bg-red-600;
   }
 }
+
+@layer utilities {
+  /* Hides the scrollbar while keeping the track scrollable */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Swiper — ProductSlider refinements
+--------------------------------------------------------------------------- */
+.product-slider .swiper-slide {
+  height: auto;
+}
+
+.product-slider .swiper-button-prev,
+.product-slider .swiper-button-next {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.95);
+  color: #dc2626;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.product-slider:hover .swiper-button-prev,
+.product-slider:hover .swiper-button-next {
+  opacity: 1;
+}
+
+.product-slider .swiper-button-prev::after,
+.product-slider .swiper-button-next::after {
+  font-size: 0.875rem;
+  font-weight: 900;
+}
+
+.product-slider .swiper-button-prev:hover,
+.product-slider .swiper-button-next:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.product-slider .swiper-button-disabled {
+  display: none;
+}
+
+.product-slider .swiper-pagination-bullet {
+  width: 6px;
+  height: 6px;
+  background: #d1d5db;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.product-slider .swiper-pagination-bullet-active {
+  width: 20px;
+  border-radius: 9999px;
+  background: #dc2626;
+}

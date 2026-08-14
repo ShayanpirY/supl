@@ -1,35 +1,87 @@
+import Link from "next/link";
 import HeroBanner from "@/components/HeroBanner";
 import CategoryGrid from "@/components/CategoryGrid";
-import BrandCarousel from "@/components/home/BrandCarousel";
-import ProductGrid from "@/components/home/ProductGrid";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
-import { getFeaturedProducts, getBestSellers, getNewArrivals } from "@/lib/data/products";
+import ProductSlider from "@/components/home/ProductSlider";
+import PromoBanners from "@/components/home/PromoBanners";
+import TopBrands from "@/components/home/TopBrands";
+import { getProducts } from "@/lib/data/db";
+import type { Product } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
-  const featured = getFeaturedProducts();
-  const bestSellers = getBestSellers();
-  const newArrivals = getNewArrivals();
+function SectionHeader({
+  title,
+  seeAllHref,
+}: {
+  title: string;
+  seeAllHref?: string;
+}) {
+  return (
+    <div className="mb-6 flex items-center justify-between">
+      <h2 className="section-title mb-0">{title}</h2>
+      {seeAllHref && (
+        <Link
+          href={seeAllHref}
+          className="text-sm font-bold text-red-600 transition-colors hover:text-red-700 hover:underline"
+        >
+          مشاهده همه ←
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function ProductSection({
+  title,
+  seeAllHref,
+  products,
+}: {
+  title: string;
+  seeAllHref?: string;
+  products: Product[];
+}) {
+  return (
+    <section className="bg-white py-10">
+      <SectionHeader title={title} seeAllHref={seeAllHref} />
+      <ProductSlider products={products} />
+    </section>
+  );
+}
+
+export default async function HomePage() {
+  const [bestSellers, newest] = await Promise.all([
+    getProducts({ sort: "bestSelling" }),
+    getProducts({ sort: "newest" }),
+  ]);
+
+  const topSelling = bestSellers.slice(0, 10);
+  const newArrivals = [
+    ...newest.filter((product) => product.isNew),
+    ...newest.filter((product) => !product.isNew),
+  ].slice(0, 10);
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <HeroBanner />
+
       <CategoryGrid />
-      <BrandCarousel />
-      <ProductGrid
-        title="محصولات پرفروش"
-        products={bestSellers.length > 0 ? bestSellers : featured}
-        seeAllHref="/category/sports-supplements"
+
+      <ProductSection
+        title="پرفروش‌ترین مکمل‌ها"
+        seeAllHref="/products?sort=bestSelling"
+        products={topSelling}
       />
-      <ProductGrid title="پیشنهاد ویژه" products={featured} />
-      {newArrivals.length > 0 && (
-        <ProductGrid
-          title="جدیدترین محصولات"
-          products={newArrivals}
-          seeAllHref="/category/weight-loss"
-        />
-      )}
+
+      <PromoBanners />
+
+      <ProductSection
+        title="جدیدترین محصولات"
+        seeAllHref="/products?sort=newest"
+        products={newArrivals}
+      />
+
+      <TopBrands />
       <WhyChooseUs />
     </div>
   );

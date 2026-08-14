@@ -1,71 +1,76 @@
-"use client";
-
 import Link from "next/link";
-import { Truck, PlayCircle, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, ShieldCheck, Sparkles, Truck } from "lucide-react";
 
 export default function HeroBanner() {
   return (
-    <section className="relative w-full overflow-hidden bg-white">
-      <div className="absolute inset-0 bg-gradient-to-b from-red-50/60 via-white to-white" />
-      <div className="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-red-100/60 blur-[120px]" />
-      <div className="absolute -bottom-40 -left-20 h-[400px] w-[400px] rounded-full bg-red-50/60 blur-[100px]" />
+    <section className="relative w-full overflow-hidden rounded-3xl bg-gray-950 text-white shadow-xl">
+      {/* Placeholder background image for the Whey Protein promo */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-20"
+        style={{ backgroundImage: "url('/images/categories/whey.png')" }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-red-900 to-black" />
+      <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-red-600/30 blur-[100px]" />
+      <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-red-500/20 blur-[100px]" />
 
-      <div className="relative z-10 py-16 sm:py-24">
-        <div className="text-center">
-          <div className="mb-6 inline-flex animate-fade-in">
-            <span className="inline-flex items-center gap-2 rounded-full bg-red-50 border border-red-100 px-4 py-2 text-xs font-bold text-red-700">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
-              </span>
-              <Truck className="h-3.5 w-3.5 text-red-600" />
-              ارسال مستقیم از دبی ۲ تا ۴ روز کاری
-            </span>
-          </div>
+      <div className="relative z-10 flex flex-col items-center gap-10 py-14 sm:py-16 lg:flex-row lg:py-20">
+        <div className="flex-1 text-center lg:text-right">
+          <span className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-4 py-1.5 text-xs font-bold text-red-300">
+            <Sparkles className="h-3.5 w-3.5" />
+            پیشنهاد ویژه این هفته
+          </span>
 
-          <h1 className="mx-auto max-w-4xl text-4xl font-black leading-tight text-gray-900 sm:text-5xl lg:text-6xl">
-            خرید انواع مکمل‌های ورزشی
-            <span className="block text-red-600">
-              و بدنسازی اورجینال
+          <h1 className="mt-5 text-4xl font-black leading-tight sm:text-5xl">
+            پروتئین وی اورجینال
+            <span className="mt-2 block text-red-500">
+              با ضمانت اصالت کالا
             </span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-gray-600 sm:text-lg">
-            ضمانت ۱۰۰٪ اصالت کالا | محاسبه آنلاین قیمت با نرخ روز درهم
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-gray-300 sm:text-base lg:mx-0">
+            واردات مستقیم از دبی، قیمت‌گذاری لحظه‌ای بر اساس نرخ درهم و ارسال
+            سریع به سراسر کشور.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
             <Link
               href="/category/sports-supplements"
-              className="group inline-flex items-center gap-2 rounded-full bg-red-600 px-8 py-3.5 text-sm font-black text-white shadow-md transition-all duration-300 ease-in-out hover:scale-105 hover:bg-red-700 hover:shadow-lg"
+              className="group inline-flex items-center gap-2 rounded-xl bg-red-600 px-8 py-3.5 text-sm font-black text-white shadow-lg shadow-red-600/30 transition-all duration-300 ease-in-out hover:scale-[1.04] hover:bg-red-500 hover:shadow-2xl hover:shadow-red-500/50 active:scale-95"
             >
-              <Sparkles className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12" />
-              مشاهده محصولات
+              خرید الان
+              <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
             </Link>
             <Link
-              href="/blog/tv"
-              className="group inline-flex items-center gap-2 rounded-full border-2 border-red-200 bg-white px-8 py-3.5 text-sm font-bold text-red-700 transition-all duration-300 ease-in-out hover:border-red-400 hover:bg-red-50"
+              href="/products"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:border-white/40 hover:bg-white/10"
             >
-              <PlayCircle className="h-4 w-4 text-red-600 transition-transform duration-300 group-hover:scale-110" />
-              ویدیوهای آنباکس
+              مشاهده همه محصولات
             </Link>
           </div>
 
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
-            {[
-              { label: "ضمانت اصالت", icon: "🛡️" },
-              { label: "ارسال از دبی", icon: "✈️" },
-              { label: "پشتیبانی ۲۴/۷", icon: "💬" },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="inline-flex items-center gap-2 rounded-full bg-white border border-gray-200 px-4 py-2 text-xs font-bold text-gray-700 transition-all duration-300 hover:border-red-200 hover:text-red-700"
-              >
-                <span>{item.icon}</span>
-                {item.label}
-              </div>
-            ))}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs font-bold text-gray-300 lg:justify-start">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="h-4 w-4 text-red-500" />
+              ضمانت اصالت کالا
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Truck className="h-4 w-4 text-red-500" />
+              ارسال ۲ تا ۴ روز کاری
+            </span>
           </div>
+        </div>
+
+        <div className="relative flex justify-center lg:w-2/5">
+          <div className="absolute inset-0 m-auto h-56 w-56 rounded-full bg-red-600/25 blur-3xl" />
+          <Image
+            src="/images/categories/whey.png"
+            alt="پروتئین وی اورجینال"
+            width={420}
+            height={420}
+            priority
+            className="relative z-10 w-64 object-contain drop-shadow-2xl sm:w-80"
+          />
         </div>
       </div>
     </section>
