@@ -41,7 +41,7 @@ const COLUMNS: Array<{ title: string; links: Array<{ label: string; href: string
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-gray-200 bg-white">
+    <footer className="border-t border-gray-200 bg-white">
       <div className="mx-auto max-w-7xl grid gap-10 py-12 px-4 sm:px-6 lg:px-8 md:grid-cols-2 lg:grid-cols-4">
         {/* Brand block */}
         <div>

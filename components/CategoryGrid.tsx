@@ -8,8 +8,7 @@ export default async function CategoryGrid() {
 
   return (
     <section className="w-full bg-white py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-6">
+      <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-6">
           {categories.map((cat) => (
             <Link
               key={cat.href}
@@ -40,7 +39,6 @@ export default async function CategoryGrid() {
             </Link>
           ))}
         </div>
-      </div>
-    </section>
+      </section>
   );
 }

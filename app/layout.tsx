@@ -34,13 +34,15 @@ export default async function RootLayout({
 
   return (
     <html lang="fa" dir="rtl" className={cn("font-sans", vazir.variable)}>
-      <body className="flex min-h-screen flex-col bg-white text-gray-900 font-vazir antialiased">
+      <body className="flex min-h-screen flex-col bg-gray-50 text-gray-900 font-vazir antialiased">
         <HeaderTop />
         <Navbar
           megaMenuCategories={megaMenuData.categories}
           megaMenuBrands={megaMenuData.brands}
         />
-        <main className="flex-1">{children}</main>
+        <main className="flex min-h-screen w-full flex-col bg-gray-50 text-gray-900">
+          {children}
+        </main>
         <Footer />
         <CartDrawer />
         <AuthModal />

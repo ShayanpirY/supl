@@ -42,7 +42,7 @@ export default function Navbar({
     useUIStore();
 
   return (
-    <header className="sticky top-0 z-50 w-full overflow-visible border-b border-gray-200 bg-white shadow-sm">
+    <header className="sticky top-0 z-[100] w-full overflow-visible border-b border-gray-200 bg-white shadow-sm">
       <div className="mx-auto max-w-7xl overflow-visible px-4 sm:px-6 lg:px-8">
         {/* Main header row */}
         <div className="flex h-16 items-center justify-between gap-4">
@@ -96,13 +96,10 @@ export default function Navbar({
             </button>
           </div>
         </div>
-
-        {/* Mega Menu line */}
-        <MegaMenu
-          categories={megaMenuCategories}
-          brands={megaMenuBrands}
-        />
       </div>
+
+      {/* Full-width red mega menu bar */}
+      <MegaMenu categories={megaMenuCategories} brands={megaMenuBrands} />
 
       {/* Mobile menu */}
       {mobileMenuOpen && (

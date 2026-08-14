@@ -70,7 +70,7 @@ const CATEGORIES = [
   {
     title: "شیکر و لوازم",
     slug: "accessories",
-    image: "/images/categories/shaker.png",
+    image: null,
   },
 ];
 

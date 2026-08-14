@@ -15,5 +15,9 @@ export default async function ProductsPage({
     getProductFacets(),
   ]);
 
-  return <ProductsView products={products} facets={facets} initialFilters={filters} />;
+  return (
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <ProductsView products={products} facets={facets} initialFilters={filters} />
+    </div>
+  );
 }

@@ -13,7 +13,7 @@ export default function HomePage() {
   const newArrivals = getNewArrivals();
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <HeroBanner />
       <CategoryGrid />
       <BrandCarousel />
@@ -31,6 +31,6 @@ export default function HomePage() {
         />
       )}
       <WhyChooseUs />
-    </>
+    </div>
   );
 }

@@ -43,8 +43,7 @@ const ITEMS = [
 export default function WhyChooseUs() {
   return (
     <section className="bg-white py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="section-title">چرا مکمل؟</h2>
+      <h2 className="section-title">چرا مکمل؟</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {ITEMS.map((item) => (
             <div
@@ -63,7 +62,6 @@ export default function WhyChooseUs() {
             </div>
           ))}
         </div>
-      </div>
     </section>
   );
 }

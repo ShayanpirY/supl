@@ -49,7 +49,7 @@ export default function ProductsView({
   };
 
   return (
-    <div className="container-x py-8">
+    <div>
       <nav className="mb-6 flex items-center gap-1.5 text-xs text-gray-500">
         <Link href="/" className="transition-colors hover:text-red-600">
           خانه

@@ -12,11 +12,20 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
 body {
-  background-color: #ffffff;
+  /* Prevent horizontal scrolling without breaking position: sticky (clip never creates a scroll container) */
+  overflow-x: clip;
+}
+
+body {
+  background-color: #f9fafb;
   color: #111827;
   font-family: var(--font-vazir), ui-sans-serif, system-ui, sans-serif;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Custom scrollbar */
@@ -37,7 +46,7 @@ body {
 
 @layer components {
   .container-x {
-    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
   .btn-primary {
@@ -59,19 +68,5 @@ body {
   .section-title::before {
     content: "";
     @apply h-7 w-1.5 rounded-full bg-red-600;
-  }
-}
-
-@layer base {
-  * {
-    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  }
-  
-  body {
-    background-color: #ffffff;
-    color: #111827;
-  }
-  html {
-    font-family: var(--font-vazir), ui-sans-serif, system-ui, sans-serif;
   }
 }

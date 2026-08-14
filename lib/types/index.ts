@@ -64,6 +64,8 @@ export interface CategoryChild {
   name: string;
   href: string;
   products: string[];
+  /** Additional stacked header+items groups rendered below this child's own items (e.g. کراتین / پاراهورمون) */
+  extraGroups?: { name: string; href: string; products: string[] }[];
 }
 
 export interface NavCategory {

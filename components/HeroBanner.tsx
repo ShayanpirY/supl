@@ -10,7 +10,7 @@ export default function HeroBanner() {
       <div className="absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-red-100/60 blur-[120px]" />
       <div className="absolute -bottom-40 -left-20 h-[400px] w-[400px] rounded-full bg-red-50/60 blur-[100px]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 sm:px-8 lg:py-24">
+      <div className="relative z-10 py-16 sm:py-24">
         <div className="text-center">
           <div className="mb-6 inline-flex animate-fade-in">
             <span className="inline-flex items-center gap-2 rounded-full bg-red-50 border border-red-100 px-4 py-2 text-xs font-bold text-red-700">
