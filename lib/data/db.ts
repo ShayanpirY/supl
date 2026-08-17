@@ -200,7 +200,7 @@ function normalizeStaticProducts(products: Product[]): Product[] {
 
 const STATIC_PRODUCTS = normalizeStaticProducts(PRODUCTS);
 
-function mapToProduct(product: {
+export function mapToProduct(product: {
   id: string;
   slug: string;
   name: string;
@@ -358,6 +358,19 @@ export async function getProducts(
   }
 
   return applyFiltersInMemory(products, filters);
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  try {
+    const dbProduct = await prisma.product.findUnique({ where: { slug } });
+    if (dbProduct) return mapToProduct(dbProduct);
+  } catch (error) {
+    console.error("[db] getProductBySlug failed, using fallback data:", error);
+  }
+
+  const fallback = PRODUCTS.find((product) => product.slug === slug);
+  if (!fallback) return null;
+  return { ...fallback, images: normalizeProductImages(fallback.images) };
 }
 
 export async function getProductFacets(): Promise<ProductFacets> {

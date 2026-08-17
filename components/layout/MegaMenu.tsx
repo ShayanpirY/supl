@@ -45,6 +45,43 @@ const MEGA_MENU_DATA = [
   },
 ];
 
+const ITEM_SLUGS: Record<string, string> = {
+  "پروتئین (وی)": "whey",
+  "پروتئین وی": "whey",
+  "پروتئین بیف": "beef",
+  "پروتئین ایزوله": "isolate",
+  "پروتئین هیدرولیز": "hydrolyzed",
+  "پروتئین کازئین": "casein",
+  "پروتئین چربی‌سوز": "protein-fat-burner",
+  "آمینو": "amino",
+  "آمینو EAA": "eaa",
+  "آمینو وی": "amino-whey",
+  "آمینو بیف": "amino-beef",
+  "H.M.B": "hmb",
+  "پمپ": "pump",
+  "آرژنین": "arginine",
+  "بتاآلانین": "beta-alanine",
+  "سیترولین": "citrulline",
+  "گلوتامین": "glutamine",
+  "Bcaa": "bcaa",
+  "BCAA": "bcaa",
+  "پس از تمرین": "post-workout",
+  "گینر": "gainer",
+  "کربوهیدرات": "carbs",
+  "کراتین مونوهیدرات": "creatine",
+  "کراتین ترکیبی": "creatine-blend",
+  "تست بوستر": "test-booster",
+  "تریبولوس": "tribulus",
+  "ZMA": "zma",
+};
+
+const toCategorySlug = (item: string): string =>
+  ITEM_SLUGS[item] ??
+  item
+    .replace(/\(|\)/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^\u0600-\u06FFa-zA-Z0-9-]/g, "");
+
 const NAV_LINK_CLASSES =
   "flex items-center gap-1 cursor-pointer rounded-t-lg px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-red-700";
 
@@ -127,7 +164,7 @@ export default function MegaMenu({ categories, brands }: MegaMenuProps) {
                       {col.items.map((item) => (
                         <li key={item}>
                           <Link
-                            href={`/search?q=${encodeURIComponent(item)}`}
+                            href={`/category/${toCategorySlug(item)}`}
                             className={SUB_LINK_CLASSES}
                           >
                             {item}
@@ -181,13 +218,53 @@ export default function MegaMenu({ categories, brands }: MegaMenuProps) {
           </Link>
         ))}
 
-        <Link href="/brands" className={NAV_LINK_CLASSES}>
-          برندها
-        </Link>
-
-        <Link href="/blog" className={NAV_LINK_CLASSES}>
-          مجله ورزشی
-        </Link>
+        {/* Brands dropdown */}
+        <div className="relative group">
+          <Link href="/brands" className={NAV_LINK_CLASSES}>
+            برندها
+            <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300" />
+          </Link>
+          <div className="invisible absolute right-0 top-full z-[99999] w-56 rounded-b-lg bg-white shadow-xl opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+            <div className="border-t-4 border-red-600 py-2 text-right">
+              <Link
+                href="/category?brand=evogen"
+                className="block px-4 py-2.5 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-red-600"
+              >
+                Evogen
+              </Link>
+              <Link
+                href="/category?brand=optimum-nutrition"
+                className="block px-4 py-2.5 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-red-600"
+              >
+                Optimum Nutrition
+              </Link>
+              <Link
+                href="/category?brand=muscletech"
+                className="block px-4 py-2.5 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-red-600"
+              >
+                MuscleTech
+              </Link>
+              <Link
+                href="/category?brand=kevin-levrone"
+                className="block px-4 py-2.5 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-red-600"
+              >
+                Kevin Levrone
+              </Link>
+              <Link
+                href="/category?brand=applied-nutrition"
+                className="block px-4 py-2.5 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-red-600"
+              >
+                Applied Nutrition
+              </Link>
+              <Link
+                href="/category?brand=bpi-sports"
+                className="block px-4 py-2.5 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-50 hover:text-red-600"
+              >
+                BPI Sports
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   );

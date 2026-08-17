@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { X, Minus, Plus, Trash2, ShoppingCart, ShieldCheck } from "lucide-react";
 import { useCartStore } from "@/store/cart-store";
 import { useCurrency } from "@/hooks/useCurrency";
 import { formatToman } from "@/lib/currency";
+import { getProductImage } from "@/lib/product-images";
 
 export default function CartDrawer() {
   const { items, isOpen, setOpen, updateQuantity, removeItem } = useCartStore();
@@ -23,13 +25,14 @@ export default function CartDrawer() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] animate-fade-in">
+    <div className="fixed inset-0 z-[1000] h-screen animate-fade-in">
       <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        className="absolute inset-0 z-[1000] bg-black/40 backdrop-blur-sm"
         onClick={() => setOpen(false)}
       />
 
-      <aside className="absolute left-0 top-0 flex h-full w-full max-w-md animate-slide-up flex-col bg-white shadow-2xl border-r border-gray-200">
+      <aside className="fixed left-0 top-0 z-[1000] flex h-full w-full max-w-md animate-slide-up flex-col border-r border-gray-200 bg-white shadow-2xl">
+        {/* هدر */}
         <div className="flex items-center justify-between border-b border-gray-200 bg-red-600 px-5 py-4 text-white">
           <h2 className="flex items-center gap-2 font-extrabold">
             <ShoppingCart className="h-5 w-5" />
@@ -49,7 +52,7 @@ export default function CartDrawer() {
 
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gray-100 border border-gray-200">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full border border-gray-200 bg-gray-100">
               <ShoppingCart className="h-9 w-9 text-gray-400" />
             </div>
             <p className="font-extrabold text-gray-900">سبد خرید شما خالی است</p>
@@ -71,15 +74,22 @@ export default function CartDrawer() {
                   (v) => v.id === item.variantId,
                 )!;
                 const price = toToman(variant?.priceInAED ?? 0);
+                const imageUrl = getProductImage(item.product.images);
+
                 return (
                   <div
                     key={`${item.product.id}-${item.variantId}`}
                     className="flex gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3"
                   >
-                    <div
-                      className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-white text-xl font-black text-gray-300 border border-gray-100"
-                    >
-                      {item.product.brand.charAt(0)}
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-white">
+                      <Image
+                        src={imageUrl}
+                        alt={item.product.name}
+                        fill
+                        sizes="64px"
+                        className="object-contain p-1"
+                        unoptimized={imageUrl.startsWith("data:")}
+                      />
                     </div>
 
                     <div className="flex flex-1 flex-col">
@@ -129,7 +139,9 @@ export default function CartDrawer() {
                     </div>
 
                     <button
-                      onClick={() => removeItem(item.product.id, item.variantId)}
+                      onClick={() =>
+                        removeItem(item.product.id, item.variantId)
+                      }
                       className="self-start rounded-lg p-1 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
                       aria-label="حذف کالا"
                     >

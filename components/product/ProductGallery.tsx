@@ -4,18 +4,18 @@ import { useState } from "react";
 import Image from "next/image";
 import { PlayCircle, Maximize2 } from "lucide-react";
 import { Product } from "@/lib/types";
-import { getProductImage } from "@/lib/product-images";
+import { getProductImage, getProductImages } from "@/lib/product-images";
 
 export default function ProductGallery({ product }: { product: Product }) {
   const [active, setActive] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
 
-  const images = product.images.length > 0 ? product.images : [{ url: getProductImage(), alt: product.name }];
+  const images = getProductImages(product.images);
   const activeImage = images[Math.min(active, images.length - 1)];
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Main image / video placeholder */}
+      {/* تصویر اصلی / ویدیو */}
       <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
         {showVideo ? (
           <div className="flex aspect-square w-full flex-col items-center justify-center gap-4 bg-gray-900">
@@ -31,7 +31,9 @@ export default function ProductGallery({ product }: { product: Product }) {
               alt={activeImage.alt ?? product.name}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              className="object-contain p-4"
+              unoptimized={activeImage.url.startsWith("data:")}
+              priority
             />
           </div>
         )}
@@ -47,15 +49,15 @@ export default function ProductGallery({ product }: { product: Product }) {
         )}
 
         <button
-          className="absolute top-4 left-4 rounded-full bg-white/80 p-2 text-gray-900 shadow-md backdrop-blur transition-colors hover:text-red-600"
+          className="absolute left-4 top-4 rounded-full bg-white/80 p-2 text-gray-900 shadow-md backdrop-blur transition-colors hover:text-red-600"
           aria-label="نمایش بزرگ"
         >
           <Maximize2 className="h-4 w-4" />
         </button>
       </div>
 
-      {/* Thumbnails */}
-      <div className="flex gap-3">
+      {/* تصاویر کوچک (Thumbnails) */}
+      <div className="flex gap-3 overflow-x-auto pb-1">
         {images.map((img, i) => (
           <button
             key={`${img.url}-${i}`}
@@ -63,7 +65,7 @@ export default function ProductGallery({ product }: { product: Product }) {
               setShowVideo(false);
               setActive(i);
             }}
-            className={`h-20 w-20 overflow-hidden rounded-xl border-2 transition-all ${
+            className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition-all ${
               active === i
                 ? "border-red-600 ring-2 ring-red-600/20"
                 : "border-gray-100 hover:border-gray-300"
@@ -76,7 +78,8 @@ export default function ProductGallery({ product }: { product: Product }) {
                 alt={img.alt ?? product.name}
                 fill
                 sizes="80px"
-                className="object-cover"
+                className="object-contain p-1"
+                unoptimized={img.url.startsWith("data:")}
               />
             </div>
           </button>

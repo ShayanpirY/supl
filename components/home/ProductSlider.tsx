@@ -41,7 +41,7 @@ function SliderCard({ product }: { product: Product }) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md">
-      <div className="relative overflow-hidden bg-gray-100">
+      <div className="relative overflow-hidden bg-gray-50">
         <Link href={`/product/${product.slug}`} className="block">
           <div className="relative aspect-square w-full">
             <Image
@@ -49,7 +49,8 @@ function SliderCard({ product }: { product: Product }) {
               alt={product.images?.[0]?.alt ?? product.name}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-              className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+              className="object-contain p-3 transition-transform duration-300 ease-in-out group-hover:scale-105"
+              unoptimized={imageUrl.startsWith("data:")}
             />
           </div>
         </Link>
