@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart-store";
 import { useCurrency } from "@/hooks/useCurrency";
@@ -32,16 +33,11 @@ export default function CheckoutPage() {
     address: "",
   });
 
-  const subtotal = items.reduce(
-    (acc, item) =>
-      acc +
-      toToman(
-        item.product.variants.find((v) => v.id === item.variantId)?.priceInAED ??
-          0,
-      ) *
-        item.quantity,
-    0,
-  );
+  const subtotal = items.reduce((acc, item) => {
+    const variant = item.product.variants.find((v) => v.id === item.variantId);
+    const price = toToman(variant?.priceInAED ?? 0);
+    return acc + price * item.quantity;
+  }, 0);
 
   const total = subtotal + (subtotal > 0 ? SHIPPING_COST : 0);
 
@@ -51,10 +47,11 @@ export default function CheckoutPage() {
     router.push("/payment");
   };
 
-  const updateField =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateField = (field: string) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
       setForm((prev) => ({ ...prev, [field]: e.target.value }));
     };
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -69,7 +66,7 @@ export default function CheckoutPage() {
 
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-8 lg:flex-row">
-            {/* Right column — Shipping Form */}
+            {/* فرم اطلاعات ارسال */}
             <div className="flex-1">
               <Card>
                 <CardHeader>
@@ -141,7 +138,7 @@ export default function CheckoutPage() {
               </Card>
             </div>
 
-            {/* Left column — Order Summary */}
+            {/* خلاصه سفارش */}
             <div className="w-full lg:w-[420px]">
               <Card className="sticky top-24">
                 <CardHeader>
@@ -157,21 +154,28 @@ export default function CheckoutPage() {
                       items.map((item) => {
                         const variant = item.product.variants.find(
                           (v) => v.id === item.variantId,
-                        )!;
+                        );
                         const linePrice =
                           toToman(variant?.priceInAED ?? 0) * item.quantity;
+                        const imageUrl = getProductImage(item.product.images);
+
                         return (
                           <div
                             key={`${item.product.id}-${item.variantId}`}
                             className="flex items-center gap-3"
                           >
-                            <img
-                              src={getProductImage(item.product.images)}
-                              alt={item.product.name}
-                              className="h-14 w-14 shrink-0 rounded-lg border border-gray-100 object-cover"
-                            />
+                            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-white">
+                              <Image
+                                src={imageUrl}
+                                alt={item.product.name}
+                                fill
+                                sizes="56px"
+                                className="object-contain p-1"
+                                unoptimized={imageUrl.startsWith("data:")}
+                              />
+                            </div>
                             <div className="flex-1">
-                              <p className="text-sm font-bold text-gray-900 line-clamp-1">
+                              <p className="line-clamp-1 text-sm font-bold text-gray-900">
                                 {item.product.name}
                               </p>
                               <p className="text-xs text-gray-500">
@@ -197,10 +201,7 @@ export default function CheckoutPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-gray-600">هزینه ارسال</span>
                       <span className="font-bold text-gray-900">
-                        {subtotal > 0
-                          ? formatToman(SHIPPING_COST)
-                          : "۰"}{" "}
-                        تومان
+                        {subtotal > 0 ? formatToman(SHIPPING_COST) : "۰"} تومان
                       </span>
                     </div>
                     <div className="flex items-center justify-between border-t border-gray-100 pt-2 text-base">
