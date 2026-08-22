@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Star, ShoppingCart, Video, BadgeCheck, Flame } from "lucide-react";
@@ -11,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { getProductImage } from "@/lib/product-images";
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const { toToman } = useCurrency();
   const addItem = useCartStore((s) => s.addItem);
   const setCartOpen = useCartStore((s) => s.setOpen);
@@ -33,7 +34,17 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.45,
+        delay: index * 0.07,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+      whileHover={{ y: -6, scale: 1.02 }}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 ease-in-out hover:shadow-md"
+    >
       <div className="relative overflow-hidden bg-gray-100">
         <Link href={`/product/${product.slug}`} className="block">
           <div className="relative aspect-square w-full">
@@ -143,6 +154,6 @@ export default function ProductCard({ product }: { product: Product }) {
         <BadgeCheck className="h-3.5 w-3.5 text-green-600" />
         ضمانت اصالت کالا — واردات مستقیم از دبی
       </div>
-    </div>
+    </motion.div>
   );
 }

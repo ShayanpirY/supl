@@ -177,7 +177,12 @@ for (const category of NAV_CATEGORIES) {
 }
 
 function imageFileExists(url: string): boolean {
-  if (!url || !url.startsWith("/")) return false;
+  if (!url) return false;
+  // Remote (http/https) and data-URI images are always treated as valid.
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) {
+    return true;
+  }
+  if (!url.startsWith("/")) return false;
   try {
     return existsSync(join(process.cwd(), "public", url));
   } catch {

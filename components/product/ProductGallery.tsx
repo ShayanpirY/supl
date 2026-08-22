@@ -87,4 +87,4 @@ export default function ProductGallery({ product }: { product: Product }) {
       </div>
     </div>
   );
-}
+} 

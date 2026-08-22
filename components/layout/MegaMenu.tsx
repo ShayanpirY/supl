@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Dumbbell, ChevronDown, BadgeCheck, ArrowLeft } from "lucide-react";
 import type { NavCategory, Brand } from "@/lib/types";
@@ -91,28 +92,14 @@ const COLUMN_HEADER_CLASSES =
 const SUB_LINK_CLASSES =
   "block py-1 text-xs font-medium text-gray-600 transition-colors hover:text-red-600";
 
-const SUPPLEMENTS_HREF = "/category/sports-supplements";
-
-const isSupplementsCategory = (cat: NavCategory) =>
-  cat.title === "مکمل‌های ورزشی" ||
-  cat.href === SUPPLEMENTS_HREF ||
-  cat.href.startsWith(`${SUPPLEMENTS_HREF}/`);
-
-const isDedicatedLink = (cat: NavCategory) =>
-  cat.href === "/brands" || cat.href === "/blog" || cat.href.startsWith("/blog/");
-
 interface MegaMenuProps {
   categories: NavCategory[];
   brands: Brand[];
 }
 
-export default function MegaMenu({ categories, brands }: MegaMenuProps) {
+export default function MegaMenu({ brands }: MegaMenuProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const open = activeMenu === "supplements";
-
-  const otherCategories = categories.filter(
-    (cat) => !isSupplementsCategory(cat) && !isDedicatedLink(cat),
-  );
 
   return (
     <nav
@@ -144,81 +131,84 @@ export default function MegaMenu({ categories, brands }: MegaMenuProps) {
             />
           </button>
 
-          {open && (
-            <div
-              className="pointer-events-auto absolute left-0 right-0 top-full z-[99999] w-full"
-              onMouseEnter={() => setActiveMenu("supplements")}
-              onMouseLeave={() => setActiveMenu(null)}
-            >
-              {/* Hover bridge: keeps the menu open while moving the cursor */}
-              <div className="pt-2" aria-hidden="true" />
-
-              <div
-                className="mx-auto grid w-full max-w-7xl grid-cols-6 gap-6 rounded-b-2xl border-t-4 border-red-600 bg-white p-6 text-right shadow-2xl"
-                dir="rtl"
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="pointer-events-auto absolute left-0 right-0 top-full z-[99999] w-full"
+                onMouseEnter={() => setActiveMenu("supplements")}
+                onMouseLeave={() => setActiveMenu(null)}
               >
-                {MEGA_MENU_DATA.map((col) => (
-                  <div key={col.title}>
-                    <h4 className={COLUMN_HEADER_CLASSES}>{col.title}</h4>
-                    <ul>
-                      {col.items.map((item) => (
-                        <li key={item}>
-                          <Link
-                            href={`/category/${toCategorySlug(item)}`}
-                            className={SUB_LINK_CLASSES}
-                          >
-                            {item}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+                {/* Hover bridge: keeps the menu open while moving the cursor */}
+                <div className="pt-2" aria-hidden="true" />
 
-                {/* Top brands strip */}
-                <div className="col-span-6 mt-4 flex flex-wrap items-center gap-3 border-t border-gray-100 pt-4">
-                  <p className="flex shrink-0 items-center gap-1.5 text-sm font-extrabold text-red-600">
-                    <BadgeCheck className="h-4 w-4" />
-                    برندهای برتر
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {brands.map((brand) => (
-                      <Link
-                        key={brand.slug}
-                        href={`/brands/${brand.slug}`}
-                        className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-extrabold text-gray-900 transition-all hover:-translate-y-0.5 hover:border-red-600/50 hover:shadow-sm"
-                      >
-                        <span
-                          className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-black text-white"
-                          style={{ backgroundColor: brand.logoColor }}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.2 }}
+                  className="mx-auto grid w-full max-w-7xl grid-cols-6 gap-6 rounded-b-2xl border-t-4 border-red-600 bg-white p-6 text-right shadow-2xl"
+                  dir="rtl"
+                >
+                  {MEGA_MENU_DATA.map((col) => (
+                    <div key={col.title}>
+                      <h4 className={COLUMN_HEADER_CLASSES}>{col.title}</h4>
+                      <ul>
+                        {col.items.map((item) => (
+                          <li key={item}>
+                            <Link
+                              href={`/category/${toCategorySlug(item)}`}
+                              className={SUB_LINK_CLASSES}
+                            >
+                              {item}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+
+                  {/* Top brands strip */}
+                  <div className="col-span-6 mt-4 flex flex-wrap items-center gap-3 border-t border-gray-100 pt-4">
+                    <p className="flex shrink-0 items-center gap-1.5 text-sm font-extrabold text-red-600">
+                      <BadgeCheck className="h-4 w-4" />
+                      برندهای برتر
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {brands.map((brand) => (
+                        <Link
+                          key={brand.slug}
+                          href={`/brands/${brand.slug}`}
+                          className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-extrabold text-gray-900 transition-all hover:-translate-y-0.5 hover:border-red-600/50 hover:shadow-sm"
                         >
-                          {brand.name.charAt(0)}
-                        </span>
-                        {brand.name}
+                          <span
+                            className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-black text-white"
+                            style={{ backgroundColor: brand.logoColor }}
+                          >
+                            {brand.name.charAt(0)}
+                          </span>
+                          {brand.name}
+                        </Link>
+                      ))}
+                      <Link
+                        href="/brands"
+                        className="flex items-center gap-1 rounded-full bg-red-600 px-3 py-1.5 text-[11px] font-extrabold text-white transition-colors hover:bg-red-700"
+                      >
+                        همه برندها
+                        <ArrowLeft className="h-3 w-3" />
                       </Link>
-                    ))}
-                    <Link
-                      href="/brands"
-                      className="flex items-center gap-1 rounded-full bg-red-600 px-3 py-1.5 text-[11px] font-extrabold text-white transition-colors hover:bg-red-700"
-                    >
-                      همه برندها
-                      <ArrowLeft className="h-3 w-3" />
-                    </Link>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Other nav items — plain links, never the mega panel */}
-        {otherCategories.map((cat) => (
-          <Link key={cat.href} href={cat.href} className={NAV_LINK_CLASSES}>
-            {cat.title}
-          </Link>
-        ))}
-
-        {/* Brands dropdown */}
+        {/* برندها dropdown */}
         <div className="relative group">
           <Link href="/brands" className={NAV_LINK_CLASSES}>
             برندها

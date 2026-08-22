@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ShieldCheck, Sparkles, Truck } from "lucide-react";
@@ -14,7 +17,12 @@ export default function HeroBanner() {
       <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-red-600/30 blur-[100px]" />
       <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-red-500/20 blur-[100px]" />
 
-      <div className="relative z-10 flex flex-col items-center gap-10 py-14 sm:py-16 lg:flex-row lg:py-20">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="relative z-10 flex flex-col items-center gap-10 py-14 sm:py-16 lg:flex-row lg:py-20"
+      >
         <div className="flex-1 text-center lg:text-right">
           <span className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-4 py-1.5 text-xs font-bold text-red-300">
             <Sparkles className="h-3.5 w-3.5" />
@@ -72,7 +80,7 @@ export default function HeroBanner() {
             className="relative z-10 w-64 object-contain drop-shadow-2xl sm:w-80"
           />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
